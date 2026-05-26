@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Bon Coins 237 | Guide Gastronomique Premium</title>
+    <style>
+        /* --- DESIGN LUXUEUX & THÈME PREMIUM --- */
+        :root {
+            --gold: #D4AF37;       
+            --gold-light: #F3E5AB; 
+            --dark-bg: #0B0B0C;    
+            --card-bg: #141416;    
+            --text-light: #E4E4E7; 
+            --text-muted: #A1A1AA; 
+            --border-gold: rgba(212, 175, 55, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            padding-top: 60px;
+        }
+
+        /* --- BARRE DE TRADUCTION FIXE --- */
+        .lang-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(11, 11, 12, 0.95);
+            display: flex;
+            justify-content: flex-end;
+            padding: 12px 20px;
+            z-index: 2000;
+            border-bottom: 1px solid var(--border-gold);
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid var(--text-muted);
+            color: var(--text-light);
+            padding: 4px 12px;
+            margin-left: 10px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .lang-btn.active, .lang-btn:hover {
+            background-color: var(--gold);
+            border-color: var(--gold);
+            color: var(--dark-bg);
+        }
+
+        /* --- EN-TÊTE --- */
+        header {
+            text-align: center;
+            padding: 40px 15px;
+            border-bottom: 1px solid var(--border-gold);
+            background: radial-gradient(circle, #1c1a17 0%, #0b0b0c 100%);
+        }
+
+        header h1 {
+            font-size: 32px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 300;
+            color: #FFFFFF;
+        }
+
+        header h1 span {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            letter-spacing: 2px;
+            font-style: italic;
+        }
+
+        .container {
+            padding: 20px 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* --- SYSTEME FILTRE BUDGET (SELON SES MOYENS) --- */
+        .budget-filter-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--gold);
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 35px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.05);
+        }
+
+        .budget-filter-box h3 {
+            font-size: 16px;
+            color: #FFFFFF;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .budget-select-wrapper {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .budget-select-wrapper select {
+            background: #1A1A1C;
+            border: 1px solid var(--border-gold);
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border-radius: 2px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .btn-filter {
+            background-color: var(--gold);
+            color: var(--dark-bg);
+            border: none;
+            padding: 10px 25px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        .btn-filter:hover {
+            background-color: #FFFFFF;
+        }
+
+        .ranking-title {
+            font-size: 20px;
+            color: var(--gold);
+            margin: 30px 0 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        /* --- PUBLICITÉS (ADS) --- */
+        .ad-banner {
+            background: linear-gradient(135deg, #18181B 0%, #27272A 100%);
+            border: 1px dashed var(--gold);
+            padding: 15px;
+            text-align: center;
+            margin: 20px auto 35px auto;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .ad-badge {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: var(--gold);
+            color: var(--dark-bg);
+            font-size: 9px;
+            font-weight: bold;
+            padding: 2px 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ad-content {
+            color: var(--text-light);
+            text-decoration: none;
+            display: block;
+        }
+
+        .ad-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #FFFFFF;
+            margin-bottom: 4px;
+        }
+
+        .ad-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* --- CARTES DE RESTAURANTS --- */
+        .resto-card {
+            background-color: var(--card-bg);
+            border-radius: 4px;
+            margin-bottom: 40px;
+            overflow: hidden;
+            border: 1px solid var(--border-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .resto-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .resto-profile-pic {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .header-text-block {
+            flex-grow: 1;
+            padding-right: 85px; 
+        }
+
+        .resto-name {
+            font-size: 20px;
+            color: #FFFFFF;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .resto-meta {
+            font-size: 11px;
+            color: var(--gold);
+            margin-top: 3px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .gold-points {
+            position: absolute;
+            top: 38px;
+            right: 20px;
+            color: var(--gold);
+            font-size: 13px;
+        }
+
+        .resto-body {
+            padding: 20px;
+        }
+
+        .resto-desc {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        /* --- BADGES UTILES --- */
+        .details-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .detail-badge {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 4px 12px;
+            font-size: 11px;
+            border-radius: 2px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .detail-badge span.icon {
+            color: var(--gold);
+        }
+
+        /* --- MENUS --- */
+        .menu-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #FFFFFF;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-left: 2px solid var(--gold);
+            padding-left: 8px;
+        }
+
+        .menu-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 14px;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: var(--gold-light);
+        }
+
+        /* --- SYSTÈME D'AVIS --- */
+        .reviews-section {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 4px;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            margin-top: 20px;
+        }
+
+        .reviews-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        .review-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 10px 0;
+        }
+
+        .review-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .review-stars { color: var(--gold); }
+        .review-text { font-size: 13px; color: var(--text-light); font-style: italic; }
+
+        .review-form {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .review-form input, .review-form textarea {
+            background-color: #1A1A1C;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            color: #FFFFFF;
+            font-size: 13px;
+            border-radius: 2px;
+        }
+
+        .review-form input:focus, .review-form textarea:focus {
+            border-color: var(--gold);
+            outline: none;
+        }
+
+        .btn-submit-review {
+            background-color: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 8px;
+            font-size: 12px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-submit-review:hover {
+            background-color: var(--gold);
+            color: var(--dark-bg);
+        }
+
+        footer {
+            border-top: 1px solid var(--border-gold);
+            text-align: center;
+            padding: 40px 15px;
+            margin-top: 60px;
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        /* GESTION MULTILINGUE STRICTE */
+        .lang-en { display: none; }
+        .lang-fr { display: block; }
+        span.lang-fr { display: inline; }
+        span.lang-en { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- BARRE DE LANGUE -->
+    <div class="lang-bar">
+        <button class="lang-btn active" id="btn-fr" onclick="changeLang('fr')">FR</button>
+        <button class="lang-btn" id="btn-en" onclick="changeLang('en')">EN</button>
+    </div>
+
+    <!-- EN-TÊTE -->
+    <header>
+        <h1>Le Bon Coins <span>237</span></h1>
+        <p class="lang-fr">L'Élite Gastronomique du Cameroun — Classement Officiel</p>
+        <p class="lang-en">Cameroon's Gastronomic Elite — Official Ranking</p>
+    </header>
+
+    <div class="container">
+
+        <!-- PUBLICITÉ TOP -->
+        <div class="ad-banner">
+            <span class="ad-badge">Publicité / Ad</span>
+            <a href="#" class="ad-content" target="_blank">
+                <div class="ad-title">Orange & MTN Mobile Money</div>
+                <div class="ad-desc">
+                    <span class="lang-fr">Soutenez vos restaurants préférés au Cameroun via Mobile Money.</span>
+                    <span class="lang-en">Support your favorite Cameroonian restaurants via Mobile Money.</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- MOTEUR DE RECOMMANDATION (SELON SES MOYENS) -->
+        <div class="budget-filter-box">
+            <h3>
+                <span class="lang-fr">Trouver selon vos moyens</span>
+                <span class="lang-en">Find places within your budget</span>
+            </h3>
+            <div class="budget-select-wrapper">
+                <select id="budgetSelector">
+                    <option value="all" class="lang-fr">✨ Tout afficher</option>
+                    <option value="all" class="lang-en">✨ Show All</option>
+                    <option value="budget" class="lang-fr">💵 Économique (< 5 000F)</option>
+                    <option value="budget" class="lang-en">💵 Low Budget (< 5 000F)</option>
+                    <option value="medium" class="lang-fr">💳 Moyen (5 000F - 15 000F)</option>
+                    <option value="medium" class="lang-en">💳 Medium Budget (5 000F - 15 000F)</option>
+                    <option value="luxury" class="lang-fr">👑 Prestige Luxe (> 15 000F)</option>
+                    <option value="luxury" class="lang-en">👑 Prestige Luxury (> 15 000F)</option>
+                </select>
+                <button class="btn-filter" onclick="filterRestaurants()">
+                    <span class="lang-fr">Recommander</span><span class="lang-en">Recommend</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="ranking-title">
+            <span class="lang-fr">Sélection Haute Couture</span>
+            <span class="lang-en">Haute Couture Selection</span>
+        </div>
+
+        <!-- LISTE DES 10 RESTAURANTS -->
+        <div id="restaurants-list">
+
+            <!-- 1. LE COSY POOL -->
+            <div class="resto-card" data-budget="luxury">
+                <div class="resto-header">
+                    <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=150" alt="Le Cosy Pool" class="resto-profile-pic">
+                    <div class="header-text-block">
+                        <div class="resto-name">Le Cosy Pool</div>
+                        <div class="resto-meta">Yaoundé (Bastos)</div>
+                    </div>
+                    <div class="gold-points">🌟🌟🌟🌟</div>
+                </div>
+                <div class="resto-body">
+                    <div class="resto-desc">
+                        <p class="lang-fr">Niché entre Air France et l'usine Bastos. Une oasis verdoyante autour d'une piscine épurée. L'adresse ultime pour la haute cuisine internationale.</p>
+                        <p class="lang-en">Nestled between Air France and the Bastos factory. A lush green oasis around a pristine pool. The ultimate address for privacy and fine international cuisine.</p>
+                    </div>
+                    <div class="details-grid">
+                        <div class="detail-badge"><span class="icon">📍</span><span class="lang-fr">Bastos</span><span class="lang-en">Bastos</span></div>
+                        <div class="detail-badge"><span class="icon">🚗</span><span class="lang-fr">Parking Sécurisé</span><span class="lang-en">Secure Parking</span></div>
+                        <div class="detail-badge"><span class="icon">📶</span><span>Wi-Fi Premium</span></div>
+                    </div>
+                    <div class="menu-title"><span class="lang-fr">Orientation Budget</span><span class="lang-en">Budget Guideline</span></div>
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <span class="lang-fr">Plats d'inspiration française</span><span class="lang-en">French inspired dishes</span>
+                            <span class="item-price">25 000 FCFA</span>
+                        </li>
+                    </ul>
+                    <div class="reviews-section">
+                        <div class="reviews-title"><span class="lang-fr">Critiques</span><span class="lang-en">Reviews</span></div>
+                        <div class="reviews-container" id="rev-cosy"></div>
+                        <form class="review-form" onsubmit="addReview(event, 'rev-cosy')">
+                            <input type="text" class="form-name" placeholder="Votre nom / Your name" required>
+                            <textarea class="form-text" rows="2" placeholder="Votre avis... / Your review..." required></textarea>
+                            <button type="submit" class="btn-submit-review"><span class="lang-fr">Publier</span><span class="lang-en">Submit</span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. LE GRILLADIN -->
+            <div class="resto-card" data-budget="medium">
+                <div class="resto-header">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=150" alt="Le Grilladin" class="resto-profile-pic">
+                    <div class="header-text-block">
+                        <div class="resto-name">Le Grilladin</div>
+                        <div class="resto-meta">Douala (Bonapriso)</div>
+                    </div>
+                    <div class="gold-points">🌟🌟🌟</div>
+                </div>
+                <div class="resto-body">
+                    <div class="resto-desc">
+                        <p class="lang-fr">Rue Paul Monthe. Une véritable institution réputée pour la constance majestueuse de ses grands buffets mixtes.</p>
+                        <p class="lang-en">Paul Monthe Street. A true institution renowned for the majestic consistency of its grand mixed buffets.</p>
+                    </div>
+                    <div class="details-grid">
+                        <div class="detail-badge"><span class="icon">📍</span><span>Bonapriso</span></div>
+                        <div class="detail-badge"><span class="icon">❄️</span><span class="lang-fr">Espace Climatisé</span><span class="lang-en">Air Conditioned</span></div>
+                    </div>
+                    <div class="menu-title"><span class="lang-fr">Orientation Budget</span><span class="lang-en">Budget Guideline</span></div>
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <span class="lang-fr">Grand Buffet National & Grillades</span><span class="lang-en">Grand National Buffet & Grills</span>
+                            <span class="item-price">12 000 FCFA</span>
+                        </li>
+                    </ul>
+                    <div class="reviews-section">
+                        <div class="reviews-title"><span class="lang-fr">Critiques</span><span class="lang-en">Reviews</span></div>
+                        <div class="reviews-container" id="rev-grill"></div>
+                        <form class="review-form" onsubmit="addReview(event, 'rev-grill')">
+                            <input type="text" class="form-name" placeholder="Votre nom / Your name" required>
+                            <textarea class="form-text" rows="2" placeholder="Votre avis... / Your review..." required></textarea>
+                            <button type="submit" class="btn-submit-review"><span class="lang-fr">Publier</span><span class="lang-en">Submit</span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PUBLICITÉ INTERMÉDIAIRE -->
+            <div class="ad-banner">
+                <span class="ad-badge">Sponsorisé / Sponsored</span>
+                <a href="#" class="ad-content" target="_blank">
+                    <div class="ad-title">UBA Africa & EcoBank</div>
+                    <div class="ad-desc">
+                        <span class="lang-fr">Profitez de privilèges exclusifs avec vos cartes bancaires Premium.</span>
+                        <span class="lang-en">Enjoy exclusive privileges with your Premium bank cards.</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 3. RESTAURANT LA SALSA -->
+            <div class="resto-card" data-budget="medium">
+                <div class="resto-header">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=150" alt="La Salsa" class="resto-profile-pic">
+                    <div class="header-text-block">
+                        <div class="resto-name">Restaurant La Salsa</div>
+                        <div class="resto-meta">Yaoundé (Bastos)</div>
+                    </div>
+                    <div class="gold-points">🌟🌟🌟</div>
+                </div>
+                <div class="resto-body">
+                    <div class="resto-desc">
+                        <p class="lang-fr">Derrière la résidence de l'ambassadeur du Nigéria. Un concept alliant ambiances musicales et cuisine fusion pointue.</p>
+                        <p class="lang-en">Behind the Nigerian Ambassador's residence. A concept smoothly combining musical atmospheres with sharp fusion cuisine.</p>
+                    </div>
+                    <div class="details-grid">
+                        <div class="detail-badge"><span class="icon">🎵</span><span class="lang-fr">Musique Live</span><span class="lang-en">Live Music</span></div>
+                        <div class="detail-badge"><span class="icon">🍕</span><span class="lang-fr">Four à bois</span><span class="lang-en">Wood Oven</span></div>
+                    </div>
+                    <div class="menu-title"><span class="lang-fr">Orientation Budget</span><span class="lang-en">Budget Guideline</span></div>
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <span class="lang-fr">Pizza Fusion Grande</span><span class="lang-en">Large Fusion Pizza</span>
+                            <span class="item-price">7 500 FCFA</span>
+                        </li>
+                    </ul>
+                    <div class="reviews-section">
+                        <div class="reviews-title"><span class="lang-fr">Critiques</span><span class="lang-en">Reviews</span></div>
+                        <div class="reviews-container" id="rev-salsa"></div>
+                        <form class="review-form" onsubmit="addReview(event, 'rev-salsa')">
+                            <input type="text" class="form-name" placeholder="Votre nom / Your name" required>
+                            <textarea class="form-text" rows="2" placeholder="Votre avis... / Your review..." required></textarea>
+                            <button type="submit" class="btn-submit-review"><span class="lang-fr">Publier</span><span class="lang-en">Submit</span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. LE SIMS -->
+            <div class="resto-card" data-budget="medium">
+                <div class="resto-header">
+                    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=150" alt="Le Sims" class="resto-profile-pic">
+                    <div class="header-text-block">
+                        <div class="resto-name">Le Sims</div>
+                        <div class="resto-meta">Yaoundé (Bastos)</div>
+                    </div>
+                    <div class="gold-points">🌟🌟</div>
+                </div>
+                <div class="resto-body">
+                    <div class="resto-desc">
+                        <p class="lang-fr">Le cœur battant des nuits de Bastos. Réputé pour la qualité incomparable de ses viandes braisées locales.</p>
+                        <p class="lang-en">The beating heart of Bastos' nights. Famous for its premium Cameroonian braised meat.</p>
+                    </div>
+                    <div class="details-grid">
+                        <div class="detail-badge"><span class="icon">🔥</span><span class="lang-fr">Spécialiste Braises</span><span class="lang-en">Braise Specialist</span></div>
+                    </div>
+                    <div class="menu-title"><span class="lang-fr">Orientation Budget</span><span class="lang-en">Budget Guideline</span></div>
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <span class="lang-fr">Poulet Braisé Entier + Accompagnement</span><span class="lang-en">Whole Braised Chicken + Side</span>
+                            <span class="item-price">12 000 FCFA</span>
+                        </li>
+                    </ul>
+                    <div class="reviews-section">
+                        <div class="reviews-title"><span class="lang-fr">Critiques</span><span class="lang-en">Reviews</span></div>
+                        <div class="reviews-container" id="rev-sims"></div>
+                        <form class="review-form" onsubmit="addReview(event, 'rev-sims')">
+                            <input type="text" class="form-name" placeholder="Votre nom / Your name" required>
+                            <textarea class="form-text" rows="2" placeholder="Votre avis... / Your review..." required></textarea>
+                            <button type="submit" class="btn-submit-review"><span class="lang-fr">Publier</span><span class="lang-en">Submit</span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. À LA BROCHE -->
+            <div class="resto-card" data-budget="budget">
+                <div class="resto-header">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=150" alt="À La Broche" class="resto-profile-pic">
+                    <div class="header-text-block">
+                        <div class="resto-name">À La Broche</div>
+                        <div class="resto-meta">Douala (Bonapriso)</div>
+                    </div>
+                    <div class="gold-points">🌟</div>
+                </div>
+                <div class="resto-body">
+                    <div class="resto-desc">
+                        <p class="lang-fr">218 Rue Batibois. Un espace urbain moderne inspiré de Brooklyn. Rapide, propre et idéal pour les budgets maîtrisés.</p>
+                        <p class="lang-en">218 Batibois Street. A modern urban fast-casual space inspired by Brooklyn. Quick, clean and ideal for smart budgets.</p>
+                    </div>
+                    <div class="details-grid">
+                        <div class="detail-badge"><span class="icon">📦</span><span class="lang-fr">À Emporter</span><span class="lang-en">Takeaway</span></div>
+                    </div>
+                    <div class="menu-title"><span class="lang-fr">Orientation Budget</span><span class="lang-en">Budget Guideline</span></div>
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <span class="lang-fr">Burger Gourmet Local</span><span class="lang-en">Local Gourmet Burger</span>
+                            <span class="item-price">4 500 FCFA</span>
+                        </li>
+                    </ul>
+                    <div class="reviews-section">
+                        <div class="reviews-title"><span class="lang-fr">Critiques</span><span class="lang-en">Reviews</span></div>
+                        <div class="reviews-container" id="rev-broche"></div>
+                        <form class="review-form" onsubmit="addReview(event, 'rev-broche')">
+                            <input type="text" class="form-name" placeholder="Votre nom / Your name" required>
+                            <textarea class="form-text" rows="2" placeholder="Votre avis... / Your review..." required></textarea>
+                            <button type="submit" class="btn-submit-review"><span class="lang-fr">Publier</span><span class="lang-en">Submit</span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. LE SAFOUTIER (HILTON) -->
+            <div class="resto-card" data-budget="luxury">
+                <div class="resto-header">
+                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=150" alt="Le Safoutier" class="resto-profile-pic">
+                    <div class="header-text-block">
+                        <div class="resto-name">Le Safoutier (Hilton)</div>
+                        <div class="resto-meta">Yaoundé (Centre-ville)</div>
+                    </div>
+                    <div class="gold-points">🌟🌟🌟🌟🌟</div>
+                </div>
+                <div class="resto-body">
+                    <div class="resto-desc">
+                        <p class="lang-fr">Le restaurant gastronomique officiel de l'Hôtel Hilton. Service 5 étoiles, clientèle d'affaires et diplomatique, grand buffet haut de gamme international.</p>
+                        <p class="lang-en">The official gastronomic restaurant of the Hilton Hotel. 5-star service, business & diplomatic crowd, premium international buffet.</p>
+                    </div>
+                    <div class="details-grid">
+                        <div class="detail-badge"><span class="icon">📍</span><span>Hilton</span></div>
+                        <div class="detail-badge"><span class="icon">🚗</span><span class="lang-fr">Service Voiturier</span><span class="lang-en">Valet Parking</span></div>
+                        <div class="detail-badge"><span class="icon">❄️</span><span class="lang-fr">Climatisation Centrale</span><span class="lang-en">Central AC</span></div>
+                    </div>
+                    <div class="menu-title"><span class="lang-fr">Orientation Budget</span><span class="lang-en">Budget Guideline</span></div>
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <span class="lang-fr">Buffet Royal d'Excellence</span><span class="lang-en">Royal Excellence Buffet</span>
+                            <span class="item-price">35 000 FCFA</span>
+                        </li>
+                    </ul>
+                    <div class="reviews-section">
+                        <div class="reviews-title"><span class="lang-fr">Critiques</span><span class="lang-en">Reviews</span></div>
+                        <div class="reviews-container" id="rev-safoutier"></div>
+                        <form class="review-form" onsubmit="addReview(event, 'rev-safoutier')">
+                            <input type="text" class="form-name" placeholder="Votre nom / Your name" required>
+                            <textarea class="form-text" rows="2" placeholder="Votre avis... / Your review..." required></textarea>
+                            <button type="submit" class="btn-submit-review"><span class="lang-fr">Publier</span><span class="lang-en">Submit</span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. L'OVALIE -->
+            <div class="resto-card" data-budget="medium">
+                <div class="resto-header">
+                    <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=150" alt="L'Ovalie" class="resto-profile-pic">
+                    <div class="header-text-block">
+                        <div class="resto-name">L'Ovalie</div>
+                        <div class="resto-meta">Douala (Bonapriso)</div>
+                    </div>
+                    <div class="gold-points">🌟🌟🌟</div>
+                </div>
+                <div class="resto-body">
+                    <div class="resto-desc">
+                        <p class="lang-fr">Une magnifique table française au cœur de Douala. Connu pour ses viandes tendres importées et sa superbe cave à vin.</p>
+                        <p class="lang-en">A magnificent French restaurant in the heart of Douala. Known for tender imported meats and an exquisite wine cellar.</p>
+                    </div>
+                    <div class="details-grid">
+                        <div class="detail-badge"><span class="icon">🍷</span><span class="lang-fr">Cave Premium</span><span class="lang-en">Premium Cellar</span></div>
+                        <div class="detail-badge"><span class="icon">❄️</span><span class="lang-fr">Climatisé</span><span class="lang-en">Air Conditioned</span></div>
+                    </div>
+                    <div class="menu-title"><span class="lang-fr">Orientation Budget</span><span class="lang-en">Budget Guideline</span></div>
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <span class="lang-fr">Entrecôte Sauce Roquefort</span><span class="lang-en">Entrecote Roquefort Sauce</span>
+                            <span class="item-price">14 500 FCFA</span>
+                        </li>
+                    </ul>
+                    <div class="reviews-section">
+                        <div class="reviews-title"><span class="lang-fr">Critiques</span><span class="lang-en">Reviews</span></div>
+                        <div class="reviews-container" id="rev-ovalie"></div>
+                        <form class="review-form" onsubmit="addReview(event, 'rev-ovalie')">
+                            <input type="text" class="form-name" placeholder="Votre nom / Your name" required>
+                            <textarea class="form-text" rows="2" placeholder="Votre avis... / Your review..." required></textarea>
+                            <button type="submit" class="btn-submit-review"><span class="lang-fr">Publier</span><span class="lang-en">Submit</span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. LA FOURCHETTE D'OR -->
+            <div class="resto-card" data-budget="luxury">
+                <div class="resto-header">
+                    <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=150" alt="La Fourchette d'Or" class="resto-profile-pic">
+                    <div class="header-text-block">
+                        <div class="resto-name">La Fourchette d'Or</div>
+                        <div class="resto-meta">Yaoundé (Bastos)</div>
+                    </div>
+                    <div class="gold-points">🌟🌟🌟🌟</div>
+                </div>
+                <div class="resto-body">
+                    <div class="resto-desc">
+                        <p class="lang-fr">Restaurant gastronomique hautement raffiné. Mélange magique de saveurs africaines revisitées et de haute cuisine de prestige.</p>
+                        <p class="lang-en">Highly refined gastronomic restaurant. Magical blend of modern African flavors and prestigious cuisine.</p>
+                    </div>
+                    <div class="details-grid">
+                        <div class="detail-badge"><span class="icon">✨</span><span>VIP Lounge</span></div>
+                        <div class="detail-badge"><span class="icon">🚗</span><span class="lang-fr">Parking Privé</span><span class="lang-en">Private Parking</span></div>
+                    </div>
+                    <div class="menu-title"><span class="lang-fr">Orientation Budget</span><span class="lang-en">Budget Guideline</span></div>
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <span class="lang-fr">Filet de Capitaine au Caviar de Safou</span><span class="lang-en">Capitaine Filet with Safou Caviar</span>
+                            <span class="item-price">22 000 FCFA</span>
+                        </li>
+                    </ul>
+                    <div class="reviews-section">
+                        <div class="reviews-title"><span class="lang-fr">Critiques</span><span class="lang-en">Reviews</span></div>
+                        <div class="reviews-container" id="rev-fourchette"></div>
+                        <form class="review-form" onsubmit="addReview(event, 'rev-fourchette')">
+                            <input type="text" class="form-name" placeholder="Votre nom / Your name" required>
+                            <textarea class="form-text" rows="2" placeholder="Votre avis... / Your review..." required></textarea>
+                            <button type="submit" class="btn-submit-review"><span class="lang-fr">Publier</span><span class="lang-en">Submit</span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. LE BOUKAROU LOUNGE -->
+            <div class="resto-card" data-budget="budget">
+                <div class="resto-header">
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=150" alt="Le Boukarou" class="resto-profile-pic">
+                    <div class="header-text-block">
+                        <div class="resto-name">Le Boukarou Lounge</div>
+                        <div class="resto-meta">Maroua (Grand Nord)</div>
+                    </div>
+                    <div class="gold-points">🌟🌟</div>
+                </div>
+                <div class="resto-body">
+                    <div class="resto-desc">
+                        <p class="lang-fr">Le plus beau cadre du Nord. Des boukarous traditionnels revisités en espaces modernes pour déguster le meilleur Kilichi et méchoui de la région.</p>
+                        <p class="lang-en">The finest setting in the North. Traditional boukarous styled into modern spaces to enjoy the best local Kilichi and grilled meat.</p>
+                    </div>
+                    <div class="details-grid">
+                        <div class="detail-badge"><span class="icon">⛺</span><span class="lang-fr">Boukarou Privé</span><span class="lang-en">Private Boukarou</span></div>
+                        <div class="detail-badge"><span class="icon">🍃</span><span class="lang-fr">Terrasse Aérée</span><span class="lang-en">Open Terrace</span></div>
+                    </div>
+                    <div class="menu-title"><span class="lang-fr">Orientation Budget</span><span class="lang-en">Budget Guideline</span></div>
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <span class="lang-fr">Méchoui d'Agneau du Nord (La part)</span><span class="lang-en">Northern Grilled Lamb (Per serving)</span>
+                            <span class="item-price">3 500 FCFA</span>
+                        </li>
+                    </ul>
+                    <div class="reviews-section">
+                        <div class="reviews-title"><span class="lang-fr">Critiques</span><span class="lang-en">Reviews</span></div>
+                        <div class="reviews-container" id="rev-boukarou"></div>
+                        <form class="review-form" onsubmit="addReview(event, 'rev-boukarou')">
+                            <input type="text" class="form-name" placeholder="Votre nom / Your name" required>
+                            <textarea class="form-text" rows="2" placeholder="Votre avis... / Your review..." required></textarea>
+                            <button type="submit" class="btn-submit-review"><span class="lang-fr">Publier</span><span class="lang-en">Submit</span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. KRIBI FISH PARADISE -->
+            <div class="resto-card" data-budget="budget">
+                <div class="resto-header">
+                    <img src="https://images.unsplash.com/photo-1534604973900-c43ab4c2e0ab?w=150" alt="Kribi Fish" class="resto-profile-pic">
+                    <div class="header-text-block">
+                        <div class="resto-name">Kribi Fish Paradise</div>
+                        <div class="resto-meta">Kribi (Bord de mer)</div>
+                    </div>
+                    <div class="gold-points">🌟🌟🌟</div>
+                </div>
+                <div class="resto-body">
+                    <div class="resto-desc">
+                        <p class="lang-fr">Manger les pieds dans l'eau sur la plage de Kribi. Poissons et crevettes fraîchement pêchés et braisés sous vos yeux au feu de bois.</p>
+                        <p class="lang-en">Eat right on the beach in Kribi. Freshly caught fish and prawns braised directly in front of you over wood fire.</p>
+                    </div>
+                    <div class="details-grid">
+                        <div class="detail-badge"><span class="icon">🌊</span><span class="lang-fr">Vue sur Mer / Plage</span><span class="lang-en">Sea View / Beach</span></div>
+                        <div class="detail-badge"><span class="icon">🔥</span><span class="lang-fr">Pêche du jour</span><span class="lang-en">Catch of the day</span></div>
+                    </div>
+                    <div class="menu-title"><span class="lang-fr">Orientation Budget</span><span class="lang-en">Budget Guideline</span></div>
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <span class="lang-fr">Gros Bar Blanc Braisé + Miondo</span><span class="lang-en">Large Braised Sea Bass + Miondo</span>
+                            <span class="item-price">4 000 FCFA</span>
+                        </li>
+                    </ul>
+                    <div class="reviews-section">
+                        <div class="reviews-title"><span class="lang-fr">Critiques</span><span class="lang-en">Reviews</span></div>
+                        <div class="reviews-container" id="rev-kribi"></div>
+                        <form class="review-form" onsubmit="addReview(event, 'rev-kribi')">
+                            <input type="text" class="form-name" placeholder="Votre nom / Your name" required>
+                            <textarea class="form-text" rows="2" placeholder="Votre avis... / Your review..." required></textarea>
+                            <button type="submit" class="btn-submit-review"><span class="lang-fr">Publier</span><span class="lang-en">Submit</span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- FIN LISTE -->
+    </div> <!-- FIN CONTAINER -->
+
+    <footer>
+        <p>&copy; 2026 <span>Le Bon Coins 237</span> — Privilège & Excellence.</p>
+    </footer>
+
+    <!-- LOGIQUE JAVASCRIPT NETTOYÉE -->
+    <script>
+        // FILTRE BUDGET (SELON SES MOYENS)
+        function filterRestaurants() {
+            const selectedBudget = document.getElementById('budgetSelector').value;
+            const cards = document.querySelectorAll('.resto-card');
+
+            cards.forEach(card => {
+                const cardBudget = card.getAttribute('data-budget');
+                if (selectedBudget === 'all' || cardBudget === selectedBudget) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // SYSTÈME DE BILINGUISME STRICT FR / EN
+        function changeLang(lang) {
+            const allFr = document.querySelectorAll('.lang-fr');
+            const allEn = document.querySelectorAll('.lang-en');
+            
+            if (lang === 'en') {
+                allFr.forEach(el => el.style.display = 'none');
+                allEn.forEach(el => {
+                    el.style.display = (el.tagName === 'SPAN') ? 'inline' : 'block';
+                });
+                document.getElementById('btn-en').classList.add('active');
+                document.getElementById('btn-fr').classList.remove('active');
+            } else {
+                allEn.forEach(el => el.style.display = 'none');
+                allFr.forEach(el => {
+                    el.style.display = (el.tagName === 'SPAN') ? 'inline' : 'block';
+                });
+                document.getElementById('btn-fr').classList.add('active');
+                document.getElementById('btn-en').classList.remove('active');
+            }
+        }
+
+        // INTERACTION CLIENT : AJOUT D'UN AVIS LOCAL
+        function addReview(event, containerId) {
+            event.preventDefault();
+            const form = event.target;
+            const name = form.querySelector('.form-name').value;
+            const text = form.querySelector('.form-text').value;
+            const container = document.getElementById(containerId);
+
+            const newReview = document.createElement('div');
+            newReview.className = 'review-item';
+            newReview.innerHTML = `
+                <div class="review-meta">
+                    <span><b>${name}</b></span>
+                    <span class="review-stars">🌟🌟🌟🌟🌟</span>
+                </div>
+                <div class="review-text">"${text}"</div>
+            `;
+            container.appendChild(newReview);
+            form.reset();
+        }
+
+        // Initialisation par défaut en Français au chargement
+        changeLang('fr');
+    </script>
+</body>
+</html>
